@@ -28,17 +28,17 @@ jobs:
         node-version: '18'
 
     - name: Install frontend dependencies
-      working-directory: ./AJM/frontend
+      working-directory: ./frontend
       run: npm install
 
     - name: Install backend dependencies
-      working-directory: ./AJM/backend
+      working-directory: ./backend
       run: npm install
 
     - name: Run frontend tests
-      working-directory: ./AJM/frontend
+      working-directory: ./frontend
       run: npm test
 
     - name: Run backend tests
-      working-directory: ./AJM/backend
+      working-directory: ./backend
       run: npm test
