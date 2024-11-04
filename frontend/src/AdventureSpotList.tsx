@@ -1,6 +1,8 @@
 // frontend/src/AdventureSpotList.tsx
 import React, { useEffect, useState } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 interface Spot {
   id: number;
   name: string;
@@ -15,7 +17,7 @@ const AdventureSpotList: React.FC = () => {
   const [rating, setRating] = useState('');
 
   useEffect(() => {
-    fetch('/api/adventure-spots')
+    fetch(`${API_URL}/adventure-spots`)
       .then((res) => res.json())
       .then((data) => setSpots(data))
       .catch((error) => console.error('Error fetching adventure spots:', error));
@@ -24,7 +26,7 @@ const AdventureSpotList: React.FC = () => {
   const handleAddSpot = () => {
     const newSpot = { name, location, rating: parseFloat(rating) };
 
-    fetch('/api/adventure-spots', {
+    fetch(`${API_URL}/adventure-spots`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newSpot),
@@ -33,7 +35,6 @@ const AdventureSpotList: React.FC = () => {
       .then((addedSpot) => setSpots([...spots, addedSpot]))
       .catch((error) => console.error('Error adding adventure spot:', error));
 
-    // フォームをリセット
     setName('');
     setLocation('');
     setRating('');

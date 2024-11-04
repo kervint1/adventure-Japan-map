@@ -1,8 +1,11 @@
+// backend/src/adventureSpotRoutes.ts
 import { Router } from 'express';
-import { getAdventureSpots } from './adventureSpotController';
+import { getAdventureSpots, addAdventureSpot } from './adventureSpotController';
 
 const router = Router();
 
-router.get('/anime-spots', getAdventureSpots);
+// ルートを "/adventure-spots" に修正
+router.get('/adventure-spots', getAdventureSpots);
+router.post('/adventure-spots', addAdventureSpot);
 
 export default router;

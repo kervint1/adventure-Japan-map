@@ -1,9 +1,10 @@
 // backend/src/adventureSpotController.ts
+import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const getAdventureSpots = async (req, res) => {
+export const getAdventureSpots = async (req: Request, res: Response) => {
   try {
     const spots = await prisma.adventureSpot.findMany();
     res.json(spots);
@@ -12,7 +13,7 @@ export const getAdventureSpots = async (req, res) => {
   }
 };
 
-export const addAdventureSpot = async (req, res) => {
+export const addAdventureSpot = async (req: Request, res: Response) => {
   const { name, location, rating } = req.body;
   try {
     const newSpot = await prisma.adventureSpot.create({
