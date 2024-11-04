@@ -47,7 +47,7 @@ GitHub Actions CI/CD
 GitHubにプッシュすると、自動的にCI (テスト・ビルド) が実行される設定になっています。詳細は .github/workflows/ci.yml を参照してください。
 
 その他のコマンド
-コンテナの停止.
+コンテナの停止
 
 bash
 コードをコピーする
