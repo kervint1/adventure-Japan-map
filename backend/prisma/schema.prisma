@@ -1,7 +1,6 @@
-// prisma/schema.prisma
-
+// backend/prisma/schema.prisma
 datasource db {
-  provider = "mysql"
+  provider = "mysql" // または他のデータベースプロバイダ
   url      = env("DATABASE_URL")
 }
 
@@ -9,11 +8,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// モデル定義の例（AnimeSpotモデル）
-model AnimeSpot {
-  id        Int      @id @default(autoincrement())
-  name      String
-  location  String
-  rating    Float
+model AdventureSpot {
+  id       Int     @id @default(autoincrement())
+  name     String
+  location String
+  rating   Float
   createdAt DateTime @default(now())
 }

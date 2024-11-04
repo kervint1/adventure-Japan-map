@@ -62,38 +62,54 @@ docker-compose down --volumes --remove-orphans
 
 # 📁 ディレクトリ構成
 ```bash
-AJM/
-├── .github/
-│   └── workflows/
+AJM
+├── .github
+│   └── workflows
 │       └── ci.yml
-├── backend/
-│   ├── node_modules/
-│   ├── prisma/
+├── backend
+│   ├── node_modules
+│   ├── prisma
+│   │   ├── migrations
+│   │   │   └── migration_lock.toml
 │   │   └── schema.prisma
-│   ├── src/
+│   ├── src
+│   │   ├── adventureSpotController.ts
+│   │   ├── adventureSpotRoutes.ts
+│   │   └── index.ts
 │   ├── .env
 │   ├── .gitignore
 │   ├── Dockerfile
 │   ├── package-lock.json
 │   ├── package.json
 │   └── tsconfig.json
-├── database/
-├── frontend/
-│   ├── node_modules/
-│   ├── public/
-│   ├── src/
+├── database
+├── frontend
+│   ├── node_modules
+│   ├── public
+│   └── src
+│       ├── AdventureSpotList.tsx
+│       ├── App.css
+│       ├── App.test.tsx
+│       ├── App.tsx
+│       ├── index.css
+│       ├── index.tsx
+│       ├── logo.svg
+│       ├── react-app-env.d.ts
+│       ├── reportWebVitals.ts
+│       └── setupTests.ts
 │   ├── .gitignore
 │   ├── Dockerfile
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── README.md
 │   └── tsconfig.json
-├── node_modules/
+├── node_modules
 ├── .gitignore
 ├── docker-compose.yml
 ├── package-lock.json
 ├── package.json
 └── README.md
+
 ```
 
 

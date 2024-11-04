@@ -1,5 +1,14 @@
+/*
+  Warnings:
+
+  - You are about to drop the `AnimeSpot` table. If the table is not empty, all the data it contains will be lost.
+
+*/
+-- DropTable
+DROP TABLE `AnimeSpot`;
+
 -- CreateTable
-CREATE TABLE `AnimeSpot` (
+CREATE TABLE `AdventureSpot` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `location` VARCHAR(191) NOT NULL,
