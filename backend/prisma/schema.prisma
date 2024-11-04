@@ -1,52 +1,19 @@
-// backend/prisma/schema.prisma
+// prisma/schema.prisma
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql" // MySQLを使用する場合は "mysql" に変更
-  url      = env("DATABASE_URL")
-}
-
+// モデル定義の例（AnimeSpotモデル）
 model AnimeSpot {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  location    String
-  anime       Anime    @relation(fields: [animeId], references: [id])
-  animeId     Int
-  reviews     Review[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Anime {
-  id          Int          @id @default(autoincrement())
-  title       String
-  description String?
-  spots       AnimeSpot[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-}
-
-model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  email    String   @unique
-  password String
-  reviews  Review[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  location  String
+  rating    Float
   createdAt DateTime @default(now())
-}
-
-model Review {
-  id         Int      @id @default(autoincrement())
-  rating     Int      @default(0) // レビューの星評価（例: 1-5）
-  comment    String?
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  animeSpot  AnimeSpot @relation(fields: [animeSpotId], references: [id])
-  animeSpotId Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
 }
