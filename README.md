@@ -1,59 +1,100 @@
-Anime Map Webアプリケーション
-このリポジトリは、アニメスポット検索機能を提供するWebアプリケーションです。フロントエンドはReact (TypeScript)、バックエンドはExpress、ORMはPrisma、データベースはMySQLを使用しています。Dockerを利用して開発環境を簡単に構築できます。
+# 🌟 Anime Map Webアプリケーション 🌟
 
-環境構築手順
-前提条件
-Dockerがインストールされていること
-Docker Composeがインストールされていること
-手順
-リポジトリをクローン
+このリポジトリは、**アニメスポット検索機能**を提供するWebアプリケーションです。  
+フロントエンドは**React (TypeScript)**、バックエンドは**Express**、ORMは**Prisma**、データベースは**MySQL**を使用しています。  
+**Docker**を利用して開発環境を簡単に構築できます。
 
-bash
-コードをコピーする
-git clone https://github.com/yourusername/anime-map.git
-cd anime-map
-環境変数ファイルの作成
+---
 
-.env ファイルをプロジェクトのルートディレクトリに作成し、以下のように設定します。
+## ⚙️ 環境構築手順
 
-env
-コードをコピーする
-# MySQLデータベース
-MYSQL_ROOT_PASSWORD=yourpassword
-MYSQL_DATABASE=animemap
-Dockerコンテナの起動
+### ✅ 前提条件
+- **Docker** がインストールされていること
+- **Docker Compose** がインストールされていること
 
-Docker Composeを使用してフロントエンド、バックエンド、データベースのコンテナを一括で起動します。
+### 📝 手順
 
-bash
-コードをコピーする
-docker-compose up --build
-フロントエンド (React) はポート 3000 でアクセスできます: http://localhost:3000
-バックエンド (Express) はポート 5000 でアクセスできます: http://localhost:5000
-MySQLデータベースはポート 3306 で接続できます。
-Prismaのセットアップ
+1. **リポジトリをクローン**
+   ```bash
+   git clone https://github.com/yourusername/anime-map.git
+   cd anime-map
 
+2. **環境変数ファイルの作成**
+    ```bash
+    # MySQLデータベース
+    MYSQL_ROOT_PASSWORD=yourpassword
+    MYSQL_DATABASE=animemap
+
+3. **Dockerコンテナの起動**
+Docker Compose を使用してフロントエンド、バックエンド、データベースのコンテナを一括で起動します。
+
+    ```bash
+    docker-compose up --build
+    ```
+
+- フロントエンド (React) はポート http://localhost:3000 でアクセスできます。
+- バックエンド (Express) はポート http://localhost:5000 でアクセスできます。
+- MySQLデータベースはポート 3306 で接続できます。
+
+4. **Prismaのセットアップ**
 初回起動時に、Prismaのマイグレーションを適用してデータベースを設定します。
 
-bash
-コードをコピーする
-docker-compose exec backend npx prisma migrate dev --name init
-フロントエンドとバックエンドの確認
+    ```bash
+    docker-compose exec backend npx prisma migrate dev --name init
+    ```
+5. **フロントエンドとバックエンドの確認**
+- フロントエンドのReactアプリは、http://localhost:3000 で確認できます。
+- バックエンドのExpress APIは、http://localhost:5000 で Hello from Express! と表示されることを確認します。
 
-フロントエンドのReactアプリは、http://localhost:3000で確認できます。
-バックエンドのExpress APIは、http://localhost:5000でHello from Express!と表示されることを確認します。
-GitHub Actions CI/CD
+# 🚀 GitHub Actions CI/CD
+GitHubにプッシュすると、自動的にCI (テスト・ビルド) が実行される設定になっています。
+詳細は **.github/workflows/ci.yml** を参照してください。
 
-GitHubにプッシュすると、自動的にCI (テスト・ビルド) が実行される設定になっています。詳細は .github/workflows/ci.yml を参照してください。
-
-その他のコマンド
-コンテナの停止
-
-bash
-コードをコピーする
+# 🔧 その他のコマンド
+- コンテナの停止
+```bash
 docker-compose down
-不要なキャッシュとボリュームの削除
-
-bash
-コードをコピーする
+```
+- 不要なキャッシュとボリュームの削除
+```bash
 docker-compose down --volumes --remove-orphans
+```
+
+# 📁 ディレクトリ構成
+```bash
+AJM/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── backend/
+│   ├── node_modules/
+│   ├── prisma/
+│   │   └── schema.prisma
+│   ├── src/
+│   ├── .env
+│   ├── .gitignore
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   └── tsconfig.json
+├── database/
+├── frontend/
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   ├── .gitignore
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   └── tsconfig.json
+├── node_modules/
+├── .gitignore
+├── docker-compose.yml
+├── package-lock.json
+├── package.json
+└── README.md
+```
+
+
+この内容をそのまま `README.md` に貼り付ければ、GitHub上で見やすく表示されるはずです。
