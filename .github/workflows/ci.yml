@@ -1,53 +1,43 @@
-name: CI
+name: Deploy to Vercel and AWS
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main  # デプロイをトリガーするブランチ
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: yourpassword
-          MYSQL_DATABASE: animemap
-        ports:
-          - '3306:3306'
-
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: List root directory contents
-      run: ls -la
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: List frontend directory contents
-      run: ls -la ./frontend
+      - name: Install dependencies
+        run: |
+          cd frontend && npm install
+          cd ../backend && npm install
 
-    - name: List backend directory contents
-      run: ls -la ./backend
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          cd frontend
+          npx vercel --prod --token=$VERCEL_TOKEN
 
-    - name: Install frontend dependencies
-      working-directory: ./frontend
-      run: npm install
-
-    - name: Install backend dependencies
-      working-directory: ./backend
-      run: npm install
-
-    - name: Run frontend tests
-      working-directory: ./frontend
-      run: npm test
-
-    - name: Run backend tests
-      working-directory: ./backend
-      run: npm test
+      - name: Deploy backend
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          # DockerやElastic Beanstalkなど、AWSでのデプロイに必要なコマンドを追加

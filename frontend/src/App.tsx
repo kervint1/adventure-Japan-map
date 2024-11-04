@@ -1,15 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import AdventureSpotList from './AdventureSpotList';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <div className='header'>animap</div>
-      <div className='content'>map</div>
-      <div className='footer'>iniad</div>
+    <div>
+      <h1>Anime Map App</h1>
+      <AdventureSpotList />
     </div>
   );
-}
+};
 
 export default App;

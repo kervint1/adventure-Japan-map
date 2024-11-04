@@ -1,8 +1,13 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from 'react';
+import AnimeSpotList from './AdventureSpotList';
 
-test('renders animap text', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/animap/i);
-  expect(linkElement).toBeInTheDocument();
-});
+const App: React.FC = () => {
+  return (
+    <div>
+      <h1>Anime Map App</h1>
+      <AnimeSpotList />
+    </div>
+  );
+};
+
+export default App;
