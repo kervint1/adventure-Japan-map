@@ -6,10 +6,11 @@ const app = express();
 const port = 5000;
 
 // CORSの設定 - 必要に応じてフロントエンドのURLを指定
-const allowedOrigins = ['https://adventure-japan-map-backend.vercel.app', 'http://localhost:3000'];
+const allowedOriginsRegex = /^https:\/\/adventure-japan-.*\.vercel\.app$/;
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin || '') || !origin) {
+    if (!origin || allowedOriginsRegex.test(origin) || origin === 'http://localhost:3000') {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
