@@ -6,7 +6,14 @@ const app = express();
 const port = 5000;
 
 // CORSを有効にする
-app.use(cors());
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+      ? 'https://your-production-frontend-url.com' 
+      : 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use('/api', adventureSpotRoutes);
