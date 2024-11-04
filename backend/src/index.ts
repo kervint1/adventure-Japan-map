@@ -5,15 +5,17 @@ import adventureSpotRoutes from './adventureSpotRoutes';
 const app = express();
 const port = 5000;
 
-// CORSを有効にする
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-      ? 'https://your-production-frontend-url.com' 
-      : 'http://localhost:3000',
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+// CORSの設定 - 必要に応じてフロントエンドのURLを指定
+const allowedOrigins = ['https://adventure-japan-map-backend.vercel.app', 'http://localhost:3000'];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin || '') || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 
 app.use(express.json());
 app.use('/api', adventureSpotRoutes);
