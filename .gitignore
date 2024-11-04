@@ -25,6 +25,7 @@ build/
 dist/
 out/
 coverage/
+.next/  # Next.jsのビルド出力を追加
 
 # React specific
 .DS_Store
@@ -49,5 +50,8 @@ coverage/
 # Prisma client
 prisma/client
 
+# NPM cache
+.npm/  # NPMキャッシュを追加
+
 # Miscellaneous
-!.gitkeep
+!.gitkeep  # 不要であればコメントアウト
