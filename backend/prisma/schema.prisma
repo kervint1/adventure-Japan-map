@@ -1,6 +1,6 @@
 // backend/prisma/schema.prisma
 datasource db {
-  provider = "mysql" // または他のデータベースプロバイダ
+  provider = "mysql" 
   url      = env("DATABASE_URL")
 }
 
