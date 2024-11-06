@@ -19,14 +19,14 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
-    environment:
-      - NODE_ENV=development
+    env_file:
+      - ./backend/.env  # backendディレクトリ内の.envファイルを指定
 
   db:
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: yourpassword
-      MYSQL_DATABASE: animemap
+      MYSQL_DATABASE: database-1
     ports:
       - '3306:3306'
     volumes:
