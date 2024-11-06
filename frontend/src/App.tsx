@@ -1,11 +1,11 @@
 import React from 'react';
 import AdventureSpotList from './AdventureSpotList';
+import Home from './components/pages/home';
 
 const App: React.FC = () => {
   return (
     <div>
-      <h1>Anime Map App</h1>
-      <AdventureSpotList />
+      <Home />
     </div>
   );
 };
