@@ -1,11 +1,11 @@
 import React from 'react';
 // import AdventureSpotList from './AdventureSpotList';
-import Home from './components/pages/home';
+import Header from './components/UI/header';
 
 const App: React.FC = () => {
   return (
     <div>
-      <Home />
+      <Header />
     </div>
   );
 };
