@@ -1,13 +1,12 @@
 import React from 'react'
+import MapCon from '../UI/mapCon'
 
 const home = () => {
   return (
     <div>
-      <div className='Header'>
-        <h1>HOME</h1>
-        <div className='mene'></div>
+      <div className='Map'>
+        <MapCon />
       </div>
-      <div className='Map'></div>
 
     </div>
   )

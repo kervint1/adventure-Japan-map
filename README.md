@@ -86,23 +86,33 @@ AJM
 ├── frontend
 │   ├── node_modules
 │   ├── public
+│   │   ├── logo.svg
 │   └── src
+│       ├── components
+│       │   ├── layout
+│       │   │   └── header.tsx
+│       │   ├── pages
+│       │   │   ├── home.tsx
+│       │   │   └── register.tsx
+│       │   └── UI
+│       │       ├── header.tsx
+│       │       └── map.tsx
+│       ├── css
 │       ├── AdventureSpotList.tsx
 │       ├── App.css
 │       ├── App.test.tsx
 │       ├── App.tsx
 │       ├── index.css
 │       ├── index.tsx
-│       ├── logo.svg
 │       ├── react-app-env.d.ts
 │       ├── reportWebVitals.ts
-│       └── setupTests.ts
-│   ├── .gitignore
-│   ├── Dockerfile
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── README.md
-│   └── tsconfig.json
+│       ├── setupTests.ts
+│       ├── .gitignore
+│       ├── Dockerfile
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── README.md
+│       └── tsconfig.json
 ├── node_modules
 ├── .gitignore
 ├── docker-compose.yml
