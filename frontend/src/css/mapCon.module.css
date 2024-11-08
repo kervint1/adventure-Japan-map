@@ -11,6 +11,15 @@
   position: relative;
 }
 
+.registerButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .dropdownButton {
   background-color: #007bff;
   color: white;

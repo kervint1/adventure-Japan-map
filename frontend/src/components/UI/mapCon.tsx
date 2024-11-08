@@ -19,27 +19,33 @@ interface Place {
   description: string;
 }
 
-const places: Place[] = [
+const initialPlaces: Place[] = [
   { id: 1, name: "場所1", location: { lat: 35.6895, lng: 139.6917 }, description: "説明1" },
   { id: 2, name: "場所2", location: { lat: 35.6896, lng: 139.6927 }, description: "説明2" },
-  // 他の場所も追加
 ];
 
-type Language = 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko';  // 言語をリテラル型として定義
+type Language = 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko';
 
 const MapCon = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
   });
 
+  const [places, setPlaces] = useState<Place[]>(initialPlaces);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [language, setLanguage] = useState<Language>('ja');  // 言語状態の型を修正
-  const [dropdownOpen, setDropdownOpen] = useState(false); // ドロップダウンの開閉状態
+  const [language, setLanguage] = useState<Language>('ja');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const [newPlaceLocation, setNewPlaceLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [newPlaceName, setNewPlaceName] = useState('');
+  const [newPlaceDescription, setNewPlaceDescription] = useState('');
 
-  const onMapClick = useCallback((place: Place) => {
-    setSelectedPlace(place);
-  }, []);
+  const onMapClick = useCallback((location: google.maps.LatLngLiteral) => {
+    if (isRegisterMode) {
+      setNewPlaceLocation(location);
+    }
+  }, [isRegisterMode]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -59,35 +65,41 @@ const MapCon = () => {
 
   const handleLanguageChange = (lang: Language) => {
     setLanguage(lang);
-    setDropdownOpen(false); // 言語選択後にドロップダウンを閉じる
+    setDropdownOpen(false);
   };
 
-  // 言語に基づいてテキストを変更
+  const handleRegisterModeToggle = () => {
+    setIsRegisterMode(!isRegisterMode);
+    setNewPlaceLocation(null);
+    setNewPlaceName('');
+    setNewPlaceDescription('');
+  };
+
+  const handlePlaceSave = () => {
+    if (newPlaceLocation && newPlaceName && newPlaceDescription) {
+      const newPlace: Place = {
+        id: places.length + 1,
+        name: newPlaceName,
+        location: newPlaceLocation,
+        description: newPlaceDescription,
+      };
+      setPlaces([...places, newPlace]);
+      setNewPlaceLocation(null);
+      setNewPlaceName('');
+      setNewPlaceDescription('');
+      setIsRegisterMode(false);
+    }
+  };
+
   const getLocalizedText = (place: Place) => {
     const translations: Record<Language, { name: string; description: string }> = {
-      en: {
-        name: place.name + " (English)",
-        description: "Description: " + place.description,
-      },
-      ja: {
-        name: place.name,
-        description: "説明: " + place.description,
-      },
-      'zh-CN': {
-        name: place.name + " (简体中文)",
-        description: "描述: " + place.description,
-      },
-      'zh-TW': {
-        name: place.name + " (繁體中文)",
-        description: "描述: " + place.description,
-      },
-      ko: {
-        name: place.name + " (한국어)",
-        description: "설명: " + place.description,
-      },
+      en: { name: place.name + " (English)", description: "Description: " + place.description },
+      ja: { name: place.name, description: "説明: " + place.description },
+      'zh-CN': { name: place.name + " (简体中文)", description: "描述: " + place.description },
+      'zh-TW': { name: place.name + " (繁體中文)", description: "描述: " + place.description },
+      ko: { name: place.name + " (한국어)", description: "설명: " + place.description },
     };
-
-    return translations[language];  // languageをキーとして安全にアクセス
+    return translations[language];
   };
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -110,28 +122,47 @@ const MapCon = () => {
             </div>
           )}
         </div>
+        <button className={styles.registerButton} onClick={handleRegisterModeToggle}>
+          {isRegisterMode ? "登録モード終了" : "目的地登録"}
+        </button>
       </div>
 
-      <GoogleMap mapContainerStyle={containerStyle} center={userLocation || center} zoom={15}>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={userLocation || center}
+        zoom={15}
+        onClick={(e) => onMapClick(e.latLng!.toJSON())}
+      >
         {userLocation && (
           <Marker position={userLocation} icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" />
         )}
         {places.map((place) => (
-          <Marker
-            key={place.id}
-            position={place.location}
-            onClick={() => onMapClick(place)}
-          />
+          <Marker key={place.id} position={place.location} onClick={() => setSelectedPlace(place)} />
         ))}
-
         {selectedPlace && (
-          <InfoWindow
-            position={selectedPlace.location}
-            onCloseClick={() => setSelectedPlace(null)}
-          >
+          <InfoWindow position={selectedPlace.location} onCloseClick={() => setSelectedPlace(null)}>
             <div>
               <h2>{getLocalizedText(selectedPlace).name}</h2>
               <p>{getLocalizedText(selectedPlace).description}</p>
+            </div>
+          </InfoWindow>
+        )}
+        {newPlaceLocation && isRegisterMode && (
+          <InfoWindow position={newPlaceLocation} onCloseClick={() => setNewPlaceLocation(null)}>
+            <div>
+              <input
+                type="text"
+                placeholder="場所の名前"
+                value={newPlaceName}
+                onChange={(e) => setNewPlaceName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="説明"
+                value={newPlaceDescription}
+                onChange={(e) => setNewPlaceDescription(e.target.value)}
+              />
+              <button onClick={handlePlaceSave}>登録</button>
             </div>
           </InfoWindow>
         )}

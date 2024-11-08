@@ -1,0 +1,15 @@
+[33maf02c35[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to origin/main
+[33maf02c35[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: reset: moving to origin/main
+[33maf02c35[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{2}: pull origin main: Fast-forward
+[33m03bece1[m HEAD@{3}: commit: header(仮)
+[33mfd25d55[m HEAD@{4}: rebase (continue) (finish): returning to refs/heads/main
+[33mfd25d55[m HEAD@{5}: rebase (continue): フォルダ構成
+[33m63b0c23[m HEAD@{6}: pull origin main --rebase (start): checkout 63b0c234617c02ea6beb166d537ecbeeecd5d1e8
+[33m79d5406[m HEAD@{7}: commit: フォルダ構成
+[33mac2fad7[m HEAD@{8}: pull origin main: Fast-forward
+[33m84a3b64[m[33m ([m[1;31morigin/new_base[m[33m)[m HEAD@{9}: Branch: renamed refs/heads/new_base to refs/heads/main
+[33m84a3b64[m[33m ([m[1;31morigin/new_base[m[33m)[m HEAD@{11}: commit: 環境完成
+[33m8841cf8[m HEAD@{12}: checkout: moving from main to new_base
+[33m05cde75[m[33m ([m[1;32moldmain[m[33m)[m HEAD@{13}: reset: moving to HEAD
+[33m05cde75[m[33m ([m[1;32moldmain[m[33m)[m HEAD@{14}: pull origin main: Fast-forward
+[33m0df2f85[m HEAD@{15}: clone: from github.com:kervint1/adventure-Japan-map.git
