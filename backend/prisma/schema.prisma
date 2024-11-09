@@ -1,6 +1,7 @@
 // backend/prisma/schema.prisma
+
 datasource db {
-  provider = "mysql" 
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -10,9 +11,11 @@ generator client {
 }
 
 model AdventureSpot {
-  id       Int     @id @default(autoincrement())
-  name     String
-  location String
-  rating   Float
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  name        String
+  latitude    Float    // 緯度
+  longitude   Float    // 経度
+  description String   // 説明
+  rating      Float?   // 任意の評価（nullを許容）
+  createdAt   DateTime @default(now())
 }

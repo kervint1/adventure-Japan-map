@@ -12,6 +12,69 @@ const center = {
   lng: 139.6917, // 東京の経度
 };
 
+// 茶色系の地図スタイルと施設非表示のスタイル
+const mapStyles = [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#ebe3cd" }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#523735" }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      { "color": "#f5f1e6" }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "off" }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#dfd2ae" }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      { "visibility": "#f5f1e6" }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      { "color": "#f5f1e6" }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#b9d3c2" }
+    ]
+  }
+];
+
 interface Place {
   id: number;
   name: string;
@@ -47,20 +110,23 @@ const MapCon = () => {
     }
   }, [isRegisterMode]);
 
+  
+
+  // 初回ロード時のデータ取得
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        () => {
-          console.log("ユーザーの位置情報を取得できませんでした。");
-        }
-      );
-    }
+    fetch(`${process.env.REACT_APP_API_URL}/adventure-spots`)
+      .then((res) => res.json())
+      .then((data) => {
+        // データを適切な形式でセット
+        const formattedPlaces = data.map((spot: any) => ({
+          id: spot.id,
+          name: spot.name,
+          location: { lat: spot.latitude, lng: spot.longitude },
+          description: spot.description,
+        }));
+        setPlaces(formattedPlaces);
+      })
+      .catch((error) => console.error('Error fetching places:', error));
   }, []);
 
   const handleLanguageChange = (lang: Language) => {
@@ -75,21 +141,48 @@ const MapCon = () => {
     setNewPlaceDescription('');
   };
 
+  // ピン保存処理
   const handlePlaceSave = () => {
     if (newPlaceLocation && newPlaceName && newPlaceDescription) {
-      const newPlace: Place = {
-        id: places.length + 1,
+      const newPlace = {
         name: newPlaceName,
-        location: newPlaceLocation,
+        latitude: newPlaceLocation.lat,
+        longitude: newPlaceLocation.lng,
         description: newPlaceDescription,
       };
-      setPlaces([...places, newPlace]);
-      setNewPlaceLocation(null);
-      setNewPlaceName('');
-      setNewPlaceDescription('');
-      setIsRegisterMode(false);
+
+      console.log("Saving new place:", newPlace);
+
+      fetch(`${process.env.REACT_APP_API_URL}/adventure-spots`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newPlace),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          // 新しい場所が保存された後、データを再取得
+          fetch(`${process.env.REACT_APP_API_URL}/adventure-spots`)
+            .then((res) => res.json())
+            .then((data) => {
+              const formattedPlaces = data.map((spot: any) => ({
+                id: spot.id,
+                name: spot.name,
+                location: { lat: spot.latitude, lng: spot.longitude },
+                description: spot.description,
+              }));
+              setPlaces(formattedPlaces);
+              setNewPlaceLocation(null);
+              setNewPlaceName('');
+              setNewPlaceDescription('');
+              setIsRegisterMode(false);
+            });
+        })
+        .catch((error) => console.error('Error saving place:', error));
     }
   };
+  
+  
+  
 
   const getLocalizedText = (place: Place) => {
     const translations: Record<Language, { name: string; description: string }> = {
@@ -131,6 +224,7 @@ const MapCon = () => {
         mapContainerStyle={containerStyle}
         center={userLocation || center}
         zoom={15}
+        options={{ styles: mapStyles }}
         onClick={(e) => onMapClick(e.latLng!.toJSON())}
       >
         {userLocation && (

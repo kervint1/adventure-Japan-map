@@ -14,17 +14,26 @@ export const getAdventureSpots = async (req: Request, res: Response) => {
 };
 
 export const addAdventureSpot = async (req: Request, res: Response) => {
-  const { name, location, rating } = req.body;
   try {
+    console.log("Received data:", req.body);  // デバッグ用ログ
+    const { name, latitude, longitude, description } = req.body;  // locationではなく、latitudeとlongitudeを直接使用
+    
     const newSpot = await prisma.adventureSpot.create({
       data: {
         name,
-        location,
-        rating: parseFloat(rating),
+        latitude,
+        longitude,
+        description,
       },
     });
-    res.status(201).json(newSpot);
+    
+    res.json(newSpot);
   } catch (error) {
-    res.status(500).json({ error: 'Error adding adventure spot' });
+    console.error("Error creating adventure spot:", error);
+    res.status(500).json({ error: 'Error adding new adventure spot' });
   }
 };
+
+
+
+
