@@ -119,7 +119,6 @@ const MapCon = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-          console.log(mapCenter);
           setUserLocation(newUserLocation);
           setMapCenter(newUserLocation);  // 中心位置を現在位置に設定
         },
@@ -240,7 +239,7 @@ const MapCon = () => {
 
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={userLocation || center}
+        center={mapCenter || center}
         zoom={15}
         options={{ styles: mapStyles }}
         onClick={(e) => onMapClick(e.latLng!.toJSON())}
