@@ -97,6 +97,7 @@ const MapCon = () => {
   const [places, setPlaces] = useState<Place[]>(initialPlaces);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [mapCenter, setMapCenter] = useState(center);  // 中心位置を管理
   const [language, setLanguage] = useState<Language>('ja');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isRegisterMode, setIsRegisterMode] = useState(false);
@@ -110,7 +111,24 @@ const MapCon = () => {
     }
   }, [isRegisterMode]);
 
-  
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newUserLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          console.log(mapCenter);
+          setUserLocation(newUserLocation);
+          setMapCenter(newUserLocation);  // 中心位置を現在位置に設定
+        },
+        () => {
+          console.log("ユーザーの位置情報を取得できませんでした。");
+        }
+      );
+    }
+  }, []);
 
   // 初回ロード時のデータ取得
   useEffect(() => {
